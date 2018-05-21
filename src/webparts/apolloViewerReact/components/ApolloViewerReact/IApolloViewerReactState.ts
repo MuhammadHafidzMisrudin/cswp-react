@@ -1,5 +1,5 @@
 import { IMission } from "../../../../models";
 
 export interface IApolloViewerReactState {
-  mission: IMission[];
+  missions: IMission[];
 }

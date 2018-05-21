@@ -1,6 +1,7 @@
 import * as React from "react";
 import styles from "./ApolloViewerReact.module.scss";
 import { IMission } from "../../../../models";
+import { MissionService } from "../../../../services";
 import {
   ApolloMission,
   IApolloViewerReactProps,
@@ -28,8 +29,16 @@ export class ApolloViewerReact extends React.Component<
   constructor(props: IApolloViewerReactProps) {
     super(props);
     this.state = {
-      mission: []
+      missions: []
     };
+  }
+
+  // add react lifecycle event.
+  public componentDidMount(): void {
+    this.setState({
+      // define the state for application.
+      missions: MissionService.getMissions() // get all missions.
+    });
   }
 
   public render(): React.ReactElement<IApolloViewerReactProps> {
