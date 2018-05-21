@@ -1,0 +1,12 @@
+{
+  "$schema": "https://dev.office.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "cswp-react-client-side-solution",
+    "id": "f2860acd-6d54-4173-9a6d-f8c4d0b14328",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true
+  },
+  "paths": {
+    "zippedPackage": "solution/cswp-react.sppkg"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "version": "1.4.1",
+    "libraryName": "cswp-react",
+    "libraryId": "f2860acd-6d54-4173-9a6d-f8c4d0b14328",
+    "environment": "spo"
+  }
+}
