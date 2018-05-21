@@ -20,6 +20,7 @@ export interface IApolloViewerReactWebPartProps {
 export default class ApolloViewerReactWebPart extends BaseClientSideWebPart<
   IApolloViewerReactWebPartProps
 > {
+  // this is a parent container component - web part.
   public render(): void {
     const element: React.ReactElement<
       IApolloViewerReactProps
