@@ -1,12 +1,16 @@
 import * as React from "react";
 import styles from "./ApolloViewerReact.module.scss";
 import { IMission } from "../../../../models";
-import { ApolloMission, IApolloViewerReactProps } from "../";
+import {
+  ApolloMission,
+  IApolloViewerReactProps,
+  IApolloViewerReactState
+} from "../";
 import { escape } from "@microsoft/sp-lodash-subset";
 
 export class ApolloViewerReact extends React.Component<
   IApolloViewerReactProps,
-  {}
+  IApolloViewerReactState
 > {
   private _mission: IMission = {
     id: "AS-502",
@@ -19,6 +23,14 @@ export class ApolloViewerReact extends React.Component<
       "Unmanned, attempted demonstration of trans-lunar injection, and direct-return abort using SM engine; three engine failures, including failure of S-IVB restart. Flight controllers used SM engine to repeat Apollo 4's flight profile. Man-rated the Saturn V.",
     crew: []
   };
+
+  // initialise the state what the default value should be.
+  constructor(props: IApolloViewerReactProps) {
+    super(props);
+    this.state = {
+      mission: []
+    };
+  }
 
   public render(): React.ReactElement<IApolloViewerReactProps> {
     // container component - ApolloViewerReact component will be rendered out by parent container component.
