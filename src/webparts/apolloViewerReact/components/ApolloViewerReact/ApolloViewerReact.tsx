@@ -40,11 +40,22 @@ export class ApolloViewerReact extends React.Component<
               <span className={styles.title}>
                 Welcome to the Apollo Mission View React!
               </span>
-              <ApolloMissionList missions={this.state.missions} />
+              <ApolloMissionList
+                missions={this.state.missions}
+                onDeleteMission={this._removeMission}
+              />
             </div>
           </div>
         </div>
       </div>
     );
   }
+
+  private _removeMission = (missionToRemove: IMission): void => {
+    // create a new collection - array of Mission
+    const newMissions: IMission[] = this.state.missions.filter(
+      mission => mission !== missionToRemove
+    );
+    this.setState({ missions: newMissions });
+  };
 }

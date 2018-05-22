@@ -17,6 +17,7 @@ export class ApolloMissionList extends React.Component<
           <ApolloMission
             key={this._getMissionUniqueId(mission)}
             mission={mission}
+            onRemoveMission={this.props.onDeleteMission}
           />
         ))}
       </div>
