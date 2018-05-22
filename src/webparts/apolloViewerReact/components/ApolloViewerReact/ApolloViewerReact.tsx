@@ -3,7 +3,7 @@ import styles from "./ApolloViewerReact.module.scss";
 import { IMission } from "../../../../models";
 import { MissionService } from "../../../../services";
 import {
-  ApolloMission,
+  ApolloMissionList,
   IApolloViewerReactProps,
   IApolloViewerReactState
 } from "../";
@@ -13,18 +13,6 @@ export class ApolloViewerReact extends React.Component<
   IApolloViewerReactProps,
   IApolloViewerReactState
 > {
-  private _mission: IMission = {
-    id: "AS-502",
-    name: "Apollo 6",
-    launch_date: "04/04/1968",
-    end_date: "",
-    image: "",
-    wiki_href: "https://en.wikipedia.org/wiki/Apollo_6",
-    summary:
-      "Unmanned, attempted demonstration of trans-lunar injection, and direct-return abort using SM engine; three engine failures, including failure of S-IVB restart. Flight controllers used SM engine to repeat Apollo 4's flight profile. Man-rated the Saturn V.",
-    crew: []
-  };
-
   // initialise the state what the default value should be.
   constructor(props: IApolloViewerReactProps) {
     super(props);
@@ -52,7 +40,7 @@ export class ApolloViewerReact extends React.Component<
               <span className={styles.title}>
                 Welcome to the Apollo Mission View React!
               </span>
-              <ApolloMission mission={this._mission} />
+              <ApolloMissionList missions={this.state.missions} />
             </div>
           </div>
         </div>
