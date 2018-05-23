@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import { List } from "office-ui-fabric-react/lib/List";
 import { TagPicker } from "office-ui-fabric-react/lib/components/pickers/TagPicker/TagPicker";
 
 import styles from "../ApolloViewerReact/ApolloViewerReact.module.scss";
@@ -19,18 +20,12 @@ export class ApolloMissionList extends React.Component<
         <TagPicker
           pickerSuggestionsProps={{
             suggestionsHeaderText: "Suggested Apollo missions...",
-            noResultsFoundText: "No matching Apollo missions found"
+            noResultsFoundText: "No matching Apollo missions found",
+            searchingText: "Searching Apollo missions..."
           }}
           onResolveSuggestions={this._onFilterChanged}
         />
-
-        {this.props.missions.map(mission => (
-          <ApolloMission
-            key={this._getMissionUniqueId(mission)}
-            mission={mission}
-            onRemoveMission={this.props.onDeleteMission}
-          />
-        ))}
+        <List items={this.props.missions} onRenderCell={this._onRenderCell} />
       </div>
     );
   }
@@ -51,7 +46,7 @@ export class ApolloMissionList extends React.Component<
           .indexOf(filterText.toLocaleLowerCase()) === 0
       ) {
         // if mission id and name are found in the filtered text.
-        // return mission
+        // return mission.
         return mission; // collection.
       }
     });
@@ -60,6 +55,20 @@ export class ApolloMissionList extends React.Component<
       key: this._getMissionUniqueId(m),
       name: `(${m.id}) ${m.name}`
     }));
+  };
+
+  private _onRenderCell = (
+    mission: IMission,
+    index: number | undefined
+  ): JSX.Element => {
+    // render a collection of missions items in the List cell.
+    return (
+      <ApolloMission
+        key={this._getMissionUniqueId(mission)}
+        mission={mission}
+        onRemoveMission={this.props.onDeleteMission}
+      />
+    );
   };
 
   // get key unique id for each mission.
