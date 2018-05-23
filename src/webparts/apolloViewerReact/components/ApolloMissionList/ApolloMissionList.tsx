@@ -16,7 +16,7 @@ export class ApolloMissionList extends React.Component<
   public render(): React.ReactElement<IApolloMissionListProps> {
     return (
       <div>
-        <TagPicker onResolveSuggestions={this._onFilterChange} />
+        <TagPicker onResolveSuggestions={this._onFilterChanged} />
 
         {this.props.missions.map(mission => (
           <ApolloMission
@@ -29,14 +29,31 @@ export class ApolloMissionList extends React.Component<
     );
   }
 
-  private _onFilterChange = (
+  private _onFilterChanged = (
     filterText: string,
     tagList: { key: string; name: string }[]
   ): { key: string; name: string }[] => {
-    return [
-      { key: "first-key", name: "first-name" },
-      { key: "second-key", name: "second-name" }
-    ];
+    // return object collection of missions with id and name.
+
+    const filteredMissions: IMission[] = this.props.missions.filter(mission => {
+      if (
+        mission.id
+          .toLocaleLowerCase()
+          .indexOf(filterText.toLocaleLowerCase()) === 0 ||
+        mission.name
+          .toLocaleLowerCase()
+          .indexOf(filterText.toLocaleLowerCase()) === 0
+      ) {
+        // if mission id and name are found in the filtered text.
+        // return mission
+        return mission; // collection.
+      }
+    });
+
+    return filteredMissions.map(m => ({
+      key: this._getMissionUniqueId(m),
+      name: `(${m.id}) ${m.name}`
+    }));
   };
 
   // get key unique id for each mission.
