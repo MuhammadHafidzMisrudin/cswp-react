@@ -30,6 +30,17 @@ export class ApolloMissionList extends React.Component<
     };
   }
 
+  public componentWillReceiveProps(newProps: IApolloMissionListProps): void {
+    let newFilteredList: IMission[] = [];
+
+    this.state.filteredMissions.forEach((filteredMission: IMission) => {
+      if (newProps.missions.indexOf(filteredMission) >= 0) {
+        newFilteredList.push(filteredMission);
+      }
+    });
+    this.setState({ filteredMissions: newFilteredList });
+  }
+
   public render(): React.ReactElement<IApolloMissionListProps> {
     return (
       <div>
@@ -46,13 +57,36 @@ export class ApolloMissionList extends React.Component<
             noResultsFoundText: "No matching Apollo missions found",
             searchingText: "Searching Apollo missions..."
           }}
+          onChange={this._onSelectedItemsChanged}
           onResolveSuggestions={this._onFilterChanged}
         />
-        <List items={this.props.missions} onRenderCell={this._onRenderCell} />
+        <List items={this._missionsToShow} onRenderCell={this._onRenderCell} />
       </div>
     );
   }
 
+  private _onSelectedItemsChanged = (items: any[]): void => {
+    const filteredMissions: any[] = items.map(item => item.mission); // create a reference to available missions.
+
+    // set the state from previous state and create a new instance for a new state.
+    this.setState((prevState: IApolloMissionListState) => {
+      const newState: IApolloMissionListState = {
+        showAllMissions: prevState.showAllMissions,
+        filteredMissions: filteredMissions
+      };
+      return newState;
+    });
+  };
+
+  // getter to return a collection of mission items
+  private get _missionsToShow(): IMission[] {
+    // ternary: return mission items -> if yes show all missions, otherwise show filtered missions.
+    return this.state.showAllMissions
+      ? this.props.missions
+      : this.state.filteredMissions;
+  }
+
+  // set the state all mission items after toggled.
   private onPickerToggleChanged = (checked: boolean): void => {
     this.setState({ showAllMissions: checked });
   };
@@ -61,7 +95,7 @@ export class ApolloMissionList extends React.Component<
   private _onFilterChanged = (
     filterText: string,
     tagList: { key: string; name: string }[]
-  ): { key: string; name: string }[] => {
+  ): { key: string; name: string; mission: IMission }[] => {
     // return object collection of missions with id and name.
 
     const filteredMissions: IMission[] = this.props.missions.filter(mission => {
@@ -81,7 +115,8 @@ export class ApolloMissionList extends React.Component<
 
     return filteredMissions.map(m => ({
       key: this._getMissionUniqueId(m),
-      name: `(${m.id}) ${m.name}`
+      name: `(${m.id}) ${m.name}`,
+      mission: m
     }));
   };
 
