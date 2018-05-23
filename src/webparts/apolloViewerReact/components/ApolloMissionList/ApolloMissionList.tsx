@@ -2,21 +2,44 @@ import * as React from "react";
 
 import { List } from "office-ui-fabric-react/lib/List";
 import { TagPicker } from "office-ui-fabric-react/lib/components/pickers/TagPicker/TagPicker";
+import { Toggle } from "office-ui-fabric-react/lib/Toggle";
 
 import styles from "../ApolloViewerReact/ApolloViewerReact.module.scss";
 
 import { IMission } from "../../../../models";
-import { ApolloMission, IApolloMissionListProps } from "../";
+import {
+  ApolloMission,
+  IApolloMissionListProps,
+  IApolloMissionListState
+} from "../";
 
 export class ApolloMissionList extends React.Component<
   IApolloMissionListProps,
-  {}
+  IApolloMissionListState
 > {
   // this (child) component to return back a list of all different items.
   // build the list up and render a list of multiple Apollo Missions.
+
+  constructor(props: IApolloMissionListProps) {
+    super(props);
+
+    // initialise the state
+    this.state = {
+      filteredMissions: [],
+      showAllMissions: false
+    };
+  }
+
   public render(): React.ReactElement<IApolloMissionListProps> {
     return (
       <div>
+        <Toggle
+          label="Show all or filtered missions?"
+          onText="Showing all missions"
+          offText="Showing selected missions"
+          checked={this.state.showAllMissions}
+          onChanged={this.onPickerToggleChanged}
+        />
         <TagPicker
           pickerSuggestionsProps={{
             suggestionsHeaderText: "Suggested Apollo missions...",
@@ -30,6 +53,11 @@ export class ApolloMissionList extends React.Component<
     );
   }
 
+  private onPickerToggleChanged = (checked: boolean): void => {
+    this.setState({ showAllMissions: checked });
+  };
+
+  // return object collection of missions with id and name.
   private _onFilterChanged = (
     filterText: string,
     tagList: { key: string; name: string }[]
@@ -57,6 +85,7 @@ export class ApolloMissionList extends React.Component<
     }));
   };
 
+  // render a collection of missions items in the List cell.
   private _onRenderCell = (
     mission: IMission,
     index: number | undefined
