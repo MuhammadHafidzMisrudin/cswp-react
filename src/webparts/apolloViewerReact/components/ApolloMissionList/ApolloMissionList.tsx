@@ -16,7 +16,13 @@ export class ApolloMissionList extends React.Component<
   public render(): React.ReactElement<IApolloMissionListProps> {
     return (
       <div>
-        <TagPicker onResolveSuggestions={this._onFilterChanged} />
+        <TagPicker
+          pickerSuggestionsProps={{
+            suggestionsHeaderText: "Suggested Apollo missions...",
+            noResultsFoundText: "No matching Apollo missions found"
+          }}
+          onResolveSuggestions={this._onFilterChanged}
+        />
 
         {this.props.missions.map(mission => (
           <ApolloMission
